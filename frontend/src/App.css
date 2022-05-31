@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.Apps {
+  background-image: url(../public/bge.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}

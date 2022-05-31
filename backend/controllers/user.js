@@ -37,7 +37,9 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
     try {
         const phoneNumber = req.params.phone;
-        const user = await models.userModel.findOne({ phoneNumber });
+        console.log(phoneNumber)
+        const user = await models.userModel.findOne({phone: phoneNumber });
+        console.log(user);
         res.json(user)
     } catch (error) {
         res.json(error);
@@ -73,7 +75,7 @@ const getReports = async (req, res) => {
 const getReport = async (req, res) => {
     try {
         const phoneNumber = req.params.phone;
-        const useReport = await models.reportModel.findOne({ phoneNumber });
+        const useReport = await models.reportModel.find({ phone:phoneNumber });
         res.json(useReport)
     } catch (error) {
         res.json(error);

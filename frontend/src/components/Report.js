@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-const CreateUser = () => {
+const CreateReport = (props) => {
     const URL = 'http://localhost:5000';
+    const location = useLocation();
 
+    const phoneNum = location.state.phone;
+    const userName = location.state.name;
+    const userAddress = location.state.address;
     const [open, setOpen] = useState(false);
-    const [user, setUser] = useState({
-        name: "",
+    const [report, setreport] = useState({
+        name: userName ? userName : "",
         date: "",
-        address: "",
-        phone: "",
+        address: userAddress ? userAddress : "",
+        phone: phoneNum ? phoneNum : "",
+        medicine: "",
+        summary: "",
     })
 
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
-        setUser((prevState) => ({
+        setreport((prevState) => ({
             ...prevState,
             [name]: value
         }))
@@ -23,15 +30,17 @@ const CreateUser = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const userCreated = await axios.post(`${URL}/createUser`, user);
-        if (userCreated) {
+        const reportCreated = await axios.post(`${URL}/createReport`, report);
+        if (reportCreated) {
             setOpen(true);
         }
-        setUser({
+        setreport({
             name: "",
             date: "",
             address: "",
             phone: "",
+            medicine: "",
+            summary: "",
         });
         setOpen(false);
     }
@@ -44,7 +53,7 @@ const CreateUser = () => {
     return (
         <>
             {
-                user.length === 0 ? "Loading" :
+                report.length === 0 ? "Loading" :
                     <div className='container'>
                         <div className='col-md-6 mx-auto' style={{ border: '1px solid lightgrey', padding: '1%', margin: '2%' }}>
                             <div className="form-group">
@@ -55,7 +64,7 @@ const CreateUser = () => {
                                     id="name"
                                     aria-describedby="emailHelp"
                                     name='name'
-                                    value={user?.name}
+                                    value={report?.name}
                                     onChange={(e) => handleChange(e)}
                                     placeholder="Enter name" />
                             </div>
@@ -67,7 +76,7 @@ const CreateUser = () => {
                                     id="address"
                                     aria-describedby="emailHelp"
                                     name='address'
-                                    value={user?.address}
+                                    value={report?.address}
                                     onChange={(e) => handleChange(e)}
                                     placeholder="Enter address" />
                             </div>
@@ -79,9 +88,33 @@ const CreateUser = () => {
                                     id="phone"
                                     aria-describedby="emailHelp"
                                     name='phone'
-                                    value={user?.phone}
+                                    value={report?.phone}
                                     onChange={(e) => handleChange(e)}
                                     placeholder="Enter phone" />
+                            </div>
+                            <div className="form-group">
+                                <label for="exampleInputPassword1">Medicine</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="medicine"
+                                    aria-describedby="emailHelp"
+                                    name='medicine'
+                                    value={report?.medicine}
+                                    onChange={(e) => handleChange(e)}
+                                    placeholder="Enter medicine" />
+                            </div>
+                            <div className="form-group">
+                                <label for="exampleInputPassword1">Summary</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="summary"
+                                    aria-describedby="emailHelp"
+                                    name='summary'
+                                    value={report?.summary}
+                                    onChange={(e) => handleChange(e)}
+                                    placeholder="Enter summary" />
                             </div>
                             <div className="form-group">
                                 <label for="exampleInputPassword1">Date</label>
@@ -91,7 +124,7 @@ const CreateUser = () => {
                                     id="date"
                                     aria-describedby="emailHelp"
                                     name='date'
-                                    value={user?.date}
+                                    value={report?.date}
                                     onChange={(e) => handleChange(e)}
                                     placeholder="Enter Date" />
                             </div>
@@ -100,7 +133,7 @@ const CreateUser = () => {
                                     type="submit"
                                     className="btn btn-primary"
                                     onClick={(e) => handleSubmit(e)}
-                                >Create</button>
+                                >Create Report</button>
                             </div>
                         </div>
                     </div>
@@ -108,4 +141,4 @@ const CreateUser = () => {
         </>)
 }
 
-export default CreateUser;
+export default CreateReport;
